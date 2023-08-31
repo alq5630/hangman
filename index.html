@@ -81,6 +81,124 @@
   <button id="guessButton">Guess</button>
   <button id="playAgainButton">Play Again</button>
 
-  <script src="script.js"></script>
+  <script >
+    const words = [
+  "algorithm", "variable", "function", "loop",
+  "array", "object", "string", "integer",
+  "boolean", "condition", "iteration", "method",
+  "class", "inheritance", "encapsulation", "polymorphism",
+  "parameter", "argument", "debugging", "compiler",
+  "syntax", "semantics", "bug", "comment",
+  "module", "library", "framework", "database",
+  "API", "frontend", "backend", "responsive",
+  "iteration", "recursion", "git", "repository",
+  "merge", "branch", "commit", "pull request"
+];
+
+const selectedWord = words[Math.floor(Math.random() * words.length)];
+let currentStage = 0; // Keep track of current hangman stage
+
+const hangmanStages = [
+  `
+     ------
+     |    |
+          |
+          |
+          |
+          |
+  =========
+  `,
+  // ... Add other hangman stages here ...
+];
+
+const hangmanContainer = document.getElementById("hangman");
+const wordContainer = document.getElementById("word");
+const guessButton = document.getElementById("guessButton");
+const guessInput = document.getElementById("guessInput");
+const playAgainButton = document.getElementById("playAgainButton");
+
+function displayWord(word) {
+  wordContainer.textContent = word.split('').map(letter => "_").join(' ');
+}
+
+function updateDisplayedWord(guessedLetter) {
+  let updatedWord = "";
+
+  for (const letter of selectedWord) {
+    if (guessedLetter === letter) {
+      updatedWord += guessedLetter;
+    } else {
+      updatedWord += "_"; // Replace with underscore for missing letters
+    }
+  }
+
+  return updatedWord;
+}
+
+function updateHangmanDisplay() {
+  hangmanContainer.innerHTML = hangmanStages[currentStage];
+}
+
+function checkGuess(guess) {
+  const updatedDisplay = updateDisplayedWord(guess);
+  displayWord(updatedDisplay);
+
+  if (!selectedWord.includes(guess)) {
+    updateHangmanStage();
+  }
+
+  if (checkWinLose(updatedDisplay)) {
+    guessButton.disabled = true;
+    guessInput.disabled = true;
+    playAgainButton.style.display = "block";
+  }
+}
+
+function updateHangmanStage() {
+  currentStage++;
+  updateHangmanDisplay();
+
+  if (currentStage === hangmanStages.length - 1) {
+    console.log("Game Over. You lost!");
+    // You can add additional game over logic here
+  }
+}
+
+function checkWinLose(displayedWord) {
+  if (!displayedWord.includes("_")) {
+    console.log("Congratulations! You've won!");
+    return true;
+  }
+
+  if (currentStage === hangmanStages.length - 1) {
+    console.log("Game Over. You lost!");
+    return true;
+  }
+
+  return false;
+}
+
+function resetGame() {
+  currentStage = 0;
+  const updatedDisplay = updateDisplayedWord("");
+  displayWord(updatedDisplay);
+  guessButton.disabled = false;
+  guessInput.disabled = false;
+  playAgainButton.style.display = "none";
+}
+
+playAgainButton.addEventListener("click", () => {
+  resetGame();
+});
+
+displayWord(selectedWord);
+
+guessButton.addEventListener("click", () => {
+  const guess = guessInput.value.toLowerCase();
+  checkGuess(guess);
+  guessInput.value = "";
+});
+
+  </script>
 </body>
 </html>
