@@ -1,5 +1,18 @@
-const words = ["apple", "banana", "cherry", "orange"]; // Add more words
+const words = [
+  "algorithm", "variable", "function", "loop",
+  "array", "object", "string", "integer",
+  "boolean", "condition", "iteration", "method",
+  "class", "inheritance", "encapsulation", "polymorphism",
+  "parameter", "argument", "debugging", "compiler",
+  "syntax", "semantics", "bug", "comment",
+  "module", "library", "framework", "database",
+  "API", "frontend", "backend", "responsive",
+  "iteration", "recursion", "git", "repository",
+  "merge", "branch", "commit", "pull request"
+];
+
 const selectedWord = words[Math.floor(Math.random() * words.length)];
+
 
 function displayWord(word) {
   const wordContainer = document.getElementById("word");
