@@ -1,6 +1,66 @@
 #hangman {
   width: 200px;
-  height: 200px;
+  height: 250px;
   background-color: white;
-  /* Draw shapes to represent the hangman stages */
+  position: relative;
+  border: 2px solid black;
+}
+
+/* Head */
+#hangman .head {
+  width: 60px;
+  height: 60px;
+  background-color: #f9c987;
+  border-radius: 50%;
+  position: absolute;
+  top: 20px;
+  left: 70px;
+}
+
+/* Body */
+#hangman .body {
+  width: 10px;
+  height: 100px;
+  background-color: #f9c987;
+  position: absolute;
+  top: 80px;
+  left: 90px;
+}
+
+/* Arms */
+#hangman .arm {
+  width: 40px;
+  height: 10px;
+  background-color: #f9c987;
+  position: absolute;
+}
+
+#hangman .arm.left {
+  top: 90px;
+  left: 50px;
+}
+
+#hangman .arm.right {
+  top: 90px;
+  left: 130px;
+}
+
+/* Legs */
+#hangman .leg {
+  width: 40px;
+  height: 10px;
+  background-color: #f9c987;
+  position: absolute;
+}
+
+#hangman .leg.left {
+  top: 180px;
+  left: 90px;
+  transform: rotate(30deg);
+}
+
+#hangman .leg.right {
+  top: 180px;
+  left: 90px;
+  transform: rotate(-30deg);
 }
