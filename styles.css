@@ -1,1 +1,6 @@
-
+#hangman {
+  width: 200px;
+  height: 200px;
+  background-color: white;
+  /* Draw shapes to represent the hangman stages */
+}
