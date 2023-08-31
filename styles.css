@@ -3,7 +3,12 @@
   height: 250px;
   background-color: white;
   position: relative;
-  border: 2px solid black;
+  border: 2px solid #333;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 /* Head */
@@ -13,8 +18,7 @@
   background-color: #f9c987;
   border-radius: 50%;
   position: absolute;
-  top: 20px;
-  left: 70px;
+  top: -60px;
 }
 
 /* Body */
@@ -22,9 +26,6 @@
   width: 10px;
   height: 100px;
   background-color: #f9c987;
-  position: absolute;
-  top: 80px;
-  left: 90px;
 }
 
 /* Arms */
@@ -36,13 +37,15 @@
 }
 
 #hangman .arm.left {
-  top: 90px;
-  left: 50px;
+  top: 40px;
+  left: -50px;
+  transform: rotate(20deg);
 }
 
 #hangman .arm.right {
-  top: 90px;
-  left: 130px;
+  top: 40px;
+  right: -50px;
+  transform: rotate(-20deg);
 }
 
 /* Legs */
@@ -54,13 +57,13 @@
 }
 
 #hangman .leg.left {
-  top: 180px;
-  left: 90px;
-  transform: rotate(30deg);
+  top: 130px;
+  left: -40px;
+  transform: rotate(45deg);
 }
 
 #hangman .leg.right {
-  top: 180px;
-  left: 90px;
-  transform: rotate(-30deg);
+  top: 130px;
+  right: -40px;
+  transform: rotate(-45deg);
 }
