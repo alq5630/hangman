@@ -30,25 +30,25 @@ guessButton.addEventListener("click", () => {
 });
 
 function checkGuess(guess) {
-function updateDisplayedWord(guessedLetter) {
-  let updatedWord = "";
+  function updateDisplayedWord(guessedLetter) {
+    let updatedWord = "";
 
-  for (const letter of selectedWord) {
-    if (guessedLetter === letter) {
-      updatedWord += guessedLetter;
-    } else {
-      updatedWord += "_"; // Replace with underscore for missing letters
+    for (const letter of selectedWord) {
+      if (guessedLetter === letter) {
+        updatedWord += guessedLetter;
+      } else {
+        updatedWord += "_"; // Replace with underscore for missing letters
+      }
     }
+
+    return updatedWord;
   }
 
-  return updatedWord;
-}
+  // Example usage:
+  const guessedLetter = "a"; // Replace this with the actual guessed letter
+  const updatedDisplay = updateDisplayedWord(guessedLetter);
 
-// Example usage:
-const guessedLetter = "a"; // Replace this with the actual guessed letter
-const updatedDisplay = updateDisplayedWord(guessedLetter);
 
-console.log(updatedDisplay); // This will display the updated word with guessed letters
 
 }
 
@@ -118,19 +118,18 @@ const hangmanStages = [
   `,
 ];
 
-// Example: Display the second hangman stage
-console.log(hangmanStages[1]);
+function updateHangmanDisplay() {
+  const hangmanContainer = document.getElementById("hangman");
+  hangmanContainer.innerHTML = hangmanStages[currentStage];
+}
 
-
-let currentStage = 0; // Keep track of current hangman stage
+let currentStage = 0; // Keep track of the current hangman stage
 
 // Function to update the current hangman stage
 function updateHangmanStage() {
   // Increment the current stage
   currentStage++;
 
-  // Display the corresponding hangman stage
-  console.log(hangmanStages[currentStage]);
 
   // Check if the player has reached the maximum stage
   if (currentStage === hangmanStages.length - 1) {
@@ -142,29 +141,9 @@ function updateHangmanStage() {
 // Example: Call the updateHangmanStage function
 updateHangmanStage(); // This will display the second hangman stage
 
-
-function updateHangmanDisplay() {
-  // Update hangman display based on currentStage
-}
-
 function checkWinLose() {
-  // Check for win condition
-  if (!displayedWord.includes("_")) {
-    console.log("Congratulations! You've won!");
-    // Additional win logic can go here, such as offering to restart the game
-    return true; // Return true to indicate a win
-  }
-
-  // Check for lose condition
-  if (currentStage === hangmanStages.length - 1) {
-    console.log("Game Over. You lost!");
-    // Additional game over logic can go here, such as offering to restart the game
-    return true; // Return true to indicate a loss
-  }
-
-  return false; // Neither win nor lose conditions met
-}
-
+  // Check for a win condition and lose condition
+  // ... (your win and lose logic here) ...
 }
 
 const playAgainButton = document.getElementById("playAgainButton");
@@ -176,6 +155,3 @@ playAgainButton.addEventListener("click", () => {
 function resetGame() {
   // Reset game state, hangman display, word, etc.
 }
-
-
-
