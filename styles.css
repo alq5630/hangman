@@ -1,14 +1,56 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Courier New, monospace;
+  background: linear-gradient(to top left, #996633 0%, #ff99cc 100%);
+}
+
+h1 {
+  color: #bc5500;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+#guessInput {
+  padding: 10px; /* Adjust the padding to your preference */
+  font-size: 16px; /* Adjust the font size to your preference */
+  border: 2px solid #333; /* Add a border */
+  border-radius: 5px; /* Add some border radius for rounded corners */
+  width: 200px; /* Set the width to your desired size */
+  margin: 10px; /* Add margin for spacing */
+}
+
+#guessInput::placeholder {
+  color: #888;
+  font-family: Courier New, monospace;/* Style the placeholder text color */
+  font-variant: small-caps;
+  text-align: center;
+}
+
 #hangman {
   width: 200px;
   height: 250px;
-  background-color: white;
-  position: relative;
+  background-image: url('https://img.freepik.com/free-vector/sunset-sunrise-ocean-nature-landscape_33099-2244.jpg?w=2000'); /* Replace with your image file path */
+  background-size: cover; /* Ensures the image covers the entire div */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  background-position: center center; /* Centers the image horizontally and vertically */
   border: 2px solid #333;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  margin-bottom: 1rem;
+  transition: opacity 0.3s; /* Add a smooth transition for opacity changes */
+}
+
+#hangman:hover {
+  opacity: 0.6; /* Reduce opacity to 80% when hovering */
 }
 
 /* Head */
@@ -18,7 +60,6 @@
   background-color: #f9c987;
   border-radius: 50%;
   position: absolute;
-  top: -60px;
 }
 
 /* Body */
@@ -26,6 +67,7 @@
   width: 10px;
   height: 100px;
   background-color: #f9c987;
+  position: absolute;
 }
 
 /* Arms */
@@ -66,4 +108,14 @@
   top: 130px;
   right: -40px;
   transform: rotate(-45deg);
+}
+
+#guessButton,
+#playAgainButton {
+    display: inline-block; /* Display buttons side by side */
+    margin-top: 25px;
+    margin-right: 10px; /* Add some spacing between buttons */
+    font-family: Courier New, monospace;
+    background-color: #DEB887;
+    font-variant: small-caps;
 }
