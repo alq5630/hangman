@@ -1,157 +1,142 @@
 const words = [
-  "algorithm", "variable", "function", "loop",
-  "array", "object", "string", "integer",
-  "boolean", "condition", "iteration", "method",
-  "class", "inheritance", "encapsulation", "polymorphism",
-  "parameter", "argument", "debugging", "compiler",
-  "syntax", "semantics", "bug", "comment",
-  "module", "library", "framework", "database",
-  "API", "frontend", "backend", "responsive",
-  "iteration", "recursion", "git", "repository",
-  "merge", "branch", "commit", "pull request"
+    "javascript",
+    "hangman",
+    "programming",
+    "web",
+    "developer",
+    "algorithm",
+    "variable",
+    "function",
+    "loop",
+    "array",
+    "object",
+    "string",
+    "integer",
+    "boolean",
+    "condition",
+    "iteration",
+    "method",
+    "class",
+    "inheritance",
+    "encapsulation",
+    "polymorphism",
+    "parameter",
+    "argument",
+    "debugging",
+    "compiler",
+    "syntax",
+    "semantics",
+    "bug",
+    "comment",
+    "module",
+    "library",
+    "framework",
+    "database",
+    "API",
+    "frontend",
+    "backend",
+    "responsive",
+    "iteration",
+    "recursion",
+    "git",
+    "repository",
+    "merge",
+    "branch",
+    "commit",
+    "pull request"
 ];
+  const maxTries = 6; // Maximum number of incorrect guesses allowed
 
-const selectedWord = words[Math.floor(Math.random() * words.length)];
+      let selectedWord;
+      let guessedWord;
+      let remainingTries;
+      let guessedLetters;
 
+      // Initialize the game
+      function initializeGame() {
+        selectedWord = getRandomWord(words);
+        guessedWord = Array(selectedWord.length).fill("_");
+        remainingTries = maxTries;
+        guessedLetters = [];
 
-function displayWord(word) {
-  const wordContainer = document.getElementById("word");
-  wordContainer.textContent = word.split('').map(letter => "_").join(' ');
-}
-displayWord(selectedWord);
-
-const guessButton = document.getElementById("guessButton");
-const guessInput = document.getElementById("guessInput");
-
-guessButton.addEventListener("click", () => {
-  const guess = guessInput.value.toLowerCase();
-  checkGuess(guess);
-  guessInput.value = "";
-});
-
-function checkGuess(guess) {
-  function updateDisplayedWord(guessedLetter) {
-    let updatedWord = "";
-
-    for (const letter of selectedWord) {
-      if (guessedLetter === letter) {
-        updatedWord += guessedLetter;
-      } else {
-        updatedWord += "_"; // Replace with underscore for missing letters
+        updateDisplay();
       }
-    }
 
-    return updatedWord;
-  }
+      // Get a random word from the array
+      function getRandomWord(wordArray) {
+        const randomIndex = Math.floor(Math.random() * wordArray.length);
+        return wordArray[randomIndex];
+      }
 
-  // Example usage:
-  const guessedLetter = "a"; // Replace this with the actual guessed letter
-  const updatedDisplay = updateDisplayedWord(guessedLetter);
+      // Update the display
+      function updateDisplay() {
+        const hangmanContainer = document.getElementById("hangman");
+        const wordContainer = document.getElementById("word");
 
+        hangmanContainer.textContent = `Remaining Tries: ${remainingTries}`;
+        wordContainer.textContent = guessedWord.join(" ");
+      }
 
+      // Handle a user's guess
+      function handleGuess() {
+        const guessInput = document.getElementById("guessInput");
+        const guess = guessInput.value.toLowerCase();
 
-}
+        if (guessedLetters.includes(guess)) {
+          alert("You've already guessed that letter.");
+          guessInput.value = "";
+          return;
+        }
 
-const hangmanStages = [
-  `
-     ------
-     |    |
-          |
-          |
-          |
-          |
-  =========
-  `,
-  `
-     ------
-     |    |
-     O    |
-          |
-          |
-          |
-  =========
-  `,
-  `
-     ------
-     |    |
-     O    |
-     |    |
-          |
-          |
-  =========
-  `,
-  `
-     ------
-     |    |
-     O    |
-    /|    |
-          |
-          |
-  =========
-  `,
-  `
-     ------
-     |    |
-     O    |
-    /|\\   |
-          |
-          |
-  =========
-  `,
-  `
-     ------
-     |    |
-     O    |
-    /|\\   |
-    /     |
-          |
-  =========
-  `,
-  `
-     ------
-     |    |
-     O    |
-    /|\\   |
-    / \\   |
-          |
-  =========
-  `,
-];
+        guessedLetters.push(guess);
+        guessInput.value = "";
 
-function updateHangmanDisplay() {
-  const hangmanContainer = document.getElementById("hangman");
-  hangmanContainer.innerHTML = hangmanStages[currentStage];
-}
+        if (selectedWord.includes(guess)) {
+          // Correct guess
+          for (let i = 0; i < selectedWord.length; i++) {
+            if (selectedWord[i] === guess) {
+              guessedWord[i] = guess;
+            }
+          }
+        } else {
+          // Incorrect guess
+          remainingTries--;
+        }
 
-let currentStage = 0; // Keep track of the current hangman stage
+        updateDisplay();
 
-// Function to update the current hangman stage
-function updateHangmanStage() {
-  // Increment the current stage
-  currentStage++;
+        if (guessedWord.join("") === selectedWord) {
+          // Player wins
+          alert("Congratulations! You've won!");
+          endGame();
+        } else if (remainingTries === 0) {
+          // Player loses
+          alert(`Game over! The word was "${selectedWord}".`);
+          endGame();
+        }
+      }
 
+      // End the game and show the "Play Again" button
+      function endGame() {
+        const guessButton = document.getElementById("guessButton");
+        const playAgainButton = document.getElementById("playAgainButton");
 
-  // Check if the player has reached the maximum stage
-  if (currentStage === hangmanStages.length - 1) {
-    console.log("Game Over. You lost!");
-    // You can also add additional logic here for game over actions
-  }
-}
+        guessButton.disabled = true;
+        guessButton.style.display = "none";
+        playAgainButton.style.display = "block";
+      }
 
-// Example: Call the updateHangmanStage function
-updateHangmanStage(); // This will display the second hangman stage
+      // Event listeners
+      const guessButton = document.getElementById("guessButton");
+      guessButton.addEventListener("click", handleGuess);
 
-function checkWinLose() {
-  // Check for a win condition and lose condition
-  // ... (your win and lose logic here) ...
-}
+      const playAgainButton = document.getElementById("playAgainButton");
+      playAgainButton.addEventListener("click", () => {
+        initializeGame();
+        guessButton.disabled = false;
+        guessButton.style.display = "inline-block";
+        playAgainButton.style.display = "none";
+      });
 
-const playAgainButton = document.getElementById("playAgainButton");
-
-playAgainButton.addEventListener("click", () => {
-  resetGame();
-});
-
-function resetGame() {
-  // Reset game state, hangman display, word, etc.
-}
+      // Initialize the game when the page loads
+      window.addEventListener("load", initializeGame);
