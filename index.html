@@ -4,7 +4,127 @@
   <head>
     <title>Hangman Game</title>
   </head>
+<style>body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Courier New, monospace;
+  background: linear-gradient(to top left, #996633 0%, #ff99cc 100%);
+}
 
+h1 {
+  color: #bc5500;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+#guessInput {
+  padding: 10px; /* Adjust the padding to your preference */
+  font-size: 16px; /* Adjust the font size to your preference */
+  border: 2px solid #333; /* Add a border */
+  border-radius: 5px; /* Add some border radius for rounded corners */
+  width: 200px; /* Set the width to your desired size */
+  margin: 10px; /* Add margin for spacing */
+}
+
+#guessInput::placeholder {
+  color: #888;
+  font-family: Courier New, monospace;/* Style the placeholder text color */
+  font-variant: small-caps;
+  text-align: center;
+}
+
+#hangman {
+  width: 200px;
+  height: 250px;
+  background-image: url('https://img.freepik.com/free-vector/sunset-sunrise-ocean-nature-landscape_33099-2244.jpg?w=2000'); /* Replace with your image file path */
+  background-size: cover; /* Ensures the image covers the entire div */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  background-position: center center; /* Centers the image horizontally and vertically */
+  border: 2px solid #333;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+  transition: opacity 0.3s; /* Add a smooth transition for opacity changes */
+}
+
+#hangman:hover {
+  opacity: 0.6; /* Reduce opacity to 80% when hovering */
+}
+
+/* Head */
+#hangman .head {
+  width: 60px;
+  height: 60px;
+  background-color: #f9c987;
+  border-radius: 50%;
+  position: absolute;
+}
+
+/* Body */
+#hangman .body {
+  width: 10px;
+  height: 100px;
+  background-color: #f9c987;
+  position: absolute;
+}
+
+/* Arms */
+#hangman .arm {
+  width: 40px;
+  height: 10px;
+  background-color: #f9c987;
+  position: absolute;
+}
+
+#hangman .arm.left {
+  top: 40px;
+  left: -50px;
+  transform: rotate(20deg);
+}
+
+#hangman .arm.right {
+  top: 40px;
+  right: -50px;
+  transform: rotate(-20deg);
+}
+
+/* Legs */
+#hangman .leg {
+  width: 40px;
+  height: 10px;
+  background-color: #f9c987;
+  position: absolute;
+}
+
+#hangman .leg.left {
+  top: 130px;
+  left: -40px;
+  transform: rotate(45deg);
+}
+
+#hangman .leg.right {
+  top: 130px;
+  right: -40px;
+  transform: rotate(-45deg);
+}
+
+#guessButton,
+#playAgainButton {
+    display: inline-block; /* Display buttons side by side */
+    margin-top: 25px;
+    margin-right: 10px; /* Add some spacing between buttons */
+    font-family: Courier New, monospace;
+    background-color: #DEB887;
+    font-variant: small-caps;
+}</style>
   <body>
     <h1>Hangman Game</h1>
     <div id="hangman"></div>
@@ -13,8 +133,150 @@
     <button id="guessButton">Guess</button>
     <button id="playAgainButton">Play Again</button>
 
-    <script src="script.js">
-    
+    <script>
+const words = [
+    "javascript",
+    "hangman",
+    "programming",
+    "web",
+    "developer",
+    "algorithm",
+    "variable",
+    "function",
+    "loop",
+    "array",
+    "object",
+    "string",
+    "integer",
+    "boolean",
+    "condition",
+    "iteration",
+    "method",
+    "class",
+    "inheritance",
+    "encapsulation",
+    "polymorphism",
+    "parameter",
+    "argument",
+    "debugging",
+    "compiler",
+    "syntax",
+    "semantics",
+    "bug",
+    "comment",
+    "module",
+    "library",
+    "framework",
+    "database",
+    "API",
+    "frontend",
+    "backend",
+    "responsive",
+    "iteration",
+    "recursion",
+    "git",
+    "repository",
+    "merge",
+    "branch",
+    "commit",
+    "pull request"
+];
+  const maxTries = 6; // Maximum number of incorrect guesses allowed
+
+      let selectedWord;
+      let guessedWord;
+      let remainingTries;
+      let guessedLetters;
+
+      // Initialize the game
+      function initializeGame() {
+        selectedWord = getRandomWord(words);
+        guessedWord = Array(selectedWord.length).fill("_");
+        remainingTries = maxTries;
+        guessedLetters = [];
+
+        updateDisplay();
+      }
+
+      // Get a random word from the array
+      function getRandomWord(wordArray) {
+        const randomIndex = Math.floor(Math.random() * wordArray.length);
+        return wordArray[randomIndex];
+      }
+
+      // Update the display
+      function updateDisplay() {
+        const hangmanContainer = document.getElementById("hangman");
+        const wordContainer = document.getElementById("word");
+
+        hangmanContainer.textContent = `Remaining Tries: ${remainingTries}`;
+        wordContainer.textContent = guessedWord.join(" ");
+      }
+
+      // Handle a user's guess
+      function handleGuess() {
+        const guessInput = document.getElementById("guessInput");
+        const guess = guessInput.value.toLowerCase();
+
+        if (guessedLetters.includes(guess)) {
+          alert("You've already guessed that letter.");
+          guessInput.value = "";
+          return;
+        }
+
+        guessedLetters.push(guess);
+        guessInput.value = "";
+
+        if (selectedWord.includes(guess)) {
+          // Correct guess
+          for (let i = 0; i < selectedWord.length; i++) {
+            if (selectedWord[i] === guess) {
+              guessedWord[i] = guess;
+            }
+          }
+        } else {
+          // Incorrect guess
+          remainingTries--;
+        }
+
+        updateDisplay();
+
+        if (guessedWord.join("") === selectedWord) {
+          // Player wins
+          alert("Congratulations! You've won!");
+          endGame();
+        } else if (remainingTries === 0) {
+          // Player loses
+          alert(`Game over! The word was "${selectedWord}".`);
+          endGame();
+        }
+      }
+
+      // End the game and show the "Play Again" button
+      function endGame() {
+        const guessButton = document.getElementById("guessButton");
+        const playAgainButton = document.getElementById("playAgainButton");
+
+        guessButton.disabled = true;
+        guessButton.style.display = "none";
+        playAgainButton.style.display = "block";
+      }
+
+      // Event listeners
+      const guessButton = document.getElementById("guessButton");
+      guessButton.addEventListener("click", handleGuess);
+
+      const playAgainButton = document.getElementById("playAgainButton");
+      playAgainButton.addEventListener("click", () => {
+        initializeGame();
+        guessButton.disabled = false;
+        guessButton.style.display = "inline-block";
+        playAgainButton.style.display = "none";
+      });
+
+      // Initialize the game when the page loads
+      window.addEventListener("load", initializeGame);
+
     </script>
   </body>
 
